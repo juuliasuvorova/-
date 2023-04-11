@@ -1,0 +1,15 @@
+package pkg5;
+import java.util.regex.*;
+public class Main {
+    public static void main(String[] args) {
+        String str = "Напишем некоторую строку в которой будут пробелы";
+        String character = " ";
+        int k = 0;
+        Pattern pattern = Pattern.compile(character); //создаем объект Pattern и передаем ему символ, который мы хотим найти.
+        Matcher matcher = pattern.matcher(str); //метод ищет следующее вхождение символа character в строку str и возвращает true, если символ найден.
+        while (matcher.find()) {
+            k++;
+        }
+        System.out.println("Количество пробелов в строке: " + k); //выводим кол-во найденных пробелов 
+    }
+}

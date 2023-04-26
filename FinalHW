@@ -1,0 +1,74 @@
+import java.io.*;
+import java.time.LocalDate;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            // Задание 1: Для каждого товара вывести в файл общее количество проданных товаров этого типа
+            List<Sale> sales = readSales("sales.xml"); // Чтение данных о продажах из XML файла
+            Map<String, Integer> productSales = getProductSales(sales); // Вычисление количества продаж каждого товара
+            writeProductSales(productSales, "product_sales.json"); // Запись результатов в JSON файл
+
+            // Задание 2: Вывести в файл распределение общего количества продаж по датам
+            Map<LocalDate, Integer> salesByDate = getSalesByDate(sales); // Вычисление количества продаж по датам
+            writeSalesByDate(salesByDate, "sales_by_date.txt"); // Запись результатов в текстовый файл
+        } catch (IOException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Чтение данных о продуктах из XML файла
+     *
+     * @param filename Имя входного файла
+     * @return Список продуктов
+     */
+    public static List<Product> readProducts(String filename) throws IOException {
+        List<Product> products = new ArrayList<>();
+        // Создание объекта для чтения XML
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            // Извлечение данных о продукте из строки
+            String[] parts = line.split(",");
+            String id = parts[0].trim();
+            String name = parts[1].trim();
+            // Создание объекта продукта и добавление его в список
+            Product product = new Product(id, name);
+            products.add(product);
+        }
+        reader.close();
+        return products;
+    }
+
+    /**
+     * Чтение данных о продавцах из JSON файла
+     *
+     * @param filename Имя входного файла
+     * @return Список продавцов
+     */
+    public static List<Seller> readSellers(String filename) throws IOException {
+        List<Seller> sellers = new ArrayList<>();
+        // Создание объекта для чтения JSON
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            // Извлечение данных о продавце из строки
+            String[] parts = line.split(",");
+            String id = parts[0].trim();
+            String firstName = parts[1].trim();
+            String lastName = parts[2].trim();
+            // Создание объекта продавца и добавление его в список
+            Seller seller = new Seller(id, firstName, lastName);
+            sellers.add(seller);
+        }
+        reader.close();
+        return sellers;
+    }
+
+    /**
+     * Чтение данных о наличии товаров у продавцов из CSV файла
+     *
+     * @param filename Имя входного файла
+     * @return С
